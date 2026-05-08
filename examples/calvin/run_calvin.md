@@ -1,4 +1,9 @@
 ## Use the convert_to_lerobot_starvla.py to transform dataset
+python examples/calvin/convert_to_lerobot_starvla.py \
+  --zip-path /mnt/data/jiangnan/calvin/task_ABC_D.zip \
+  --output-root /mnt/data/jiangnan/lerobot \
+  --repo-id task_ABC_D_lerobot \
+  --splits training
 
 ## run calvin benchmark
 cd /home/user01/jiangnan/starVLA

@@ -11,7 +11,9 @@ Usage:
     python examples/calvin/eval_calvin.py \
         --args.host 0.0.0.0 \
         --args.port 8000 \
-        --args.dataset_path /path/to/calvin/task_D_D \
+        --args.dataset_path /mnt/data/jiangnan/calvin/task_D_D \
+        --args.calvin_config_path /mnt/data/jiangnan/calvin/calvin/calvin_models/conf \
+        --args.eval_sequences_path /home/rorschach/github_projects/vla/starVLA_code/examples/calvin/eval_files/eval_sequences.json \
         --args.num_sequences 1000
 """
 
@@ -72,9 +74,11 @@ class Args:
     #################################################################################################################
     # Calvin environment-specific parameters
     #################################################################################################################
-    dataset_path: str = "/path/to/calvin/task_D_D"  # Path to Calvin dataset
-    calvin_config_path: str = "/path/to/calvin/calvin_models/conf"
-    eval_sequences_path: str = "/path/to/calvin/eval_sequences.json"
+    dataset_path: str = "/mnt/data/jiangnan/calvin/task_D_D"  # Path to Calvin dataset
+    calvin_config_path: str = "/mnt/data/jiangnan/calvin/calvin/calvin_models/conf"
+    eval_sequences_path: str = (
+        "/home/rorschach/github_projects/vla/starVLA_code/examples/calvin/eval_files/eval_sequences.json"
+    )
     num_sequences: int = 1000  # Number of evaluation sequences
     num_workers: int = 1  # For future multi-process support
     seed: int = 0
@@ -392,5 +396,4 @@ def main(args: Args):
 
 if __name__ == "__main__":
     tyro.cli(main)
-
 
