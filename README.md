@@ -84,31 +84,35 @@ checkpoint package.
 
 ## 3. Start Policy Server
 
-Terminal 1:
+Terminal 1, inside the hippoVLA environment:
 
 ```bash
 cd /path/to/hippoVLA
 conda activate hippoVLA
+export PYTHONPATH=$(pwd):${PYTHONPATH}
 
-CKPT_PATH=/path/to/ckpt/hippoVLA_rynnbrain_calvin_task_ABC_D_memory_dit_inter10_step5/final_model/pytorch_model.pt \
-GPU_ID=0 \
-PORT=5694 \
-bash examples/calvin/eval_files/run_policy_server.sh
+CUDA_VISIBLE_DEVICES=1 python deployment/model_server/server_policy.py \
+  --ckpt_path /path/to/ckpt/hippoVLA_rynnbrain_calvin_task_ABC_D_memory_dit_inter10_step5/final_model/pytorch_model.pt \
+  --port 5695 \
+  --use_bf16
 ```
 
 ## 4. Run CALVIN Evaluation
 
-Terminal 2, inside your CALVIN environment:
+Terminal 2, inside the CALVIN environment:
 
 ```bash
 cd /path/to/hippoVLA
+conda activate calvin310
+export PYTHONPATH=$(pwd):${PYTHONPATH}
 
-CKPT_PATH=/path/to/ckpt/hippoVLA_rynnbrain_calvin_task_ABC_D_memory_dit_inter10_step5/final_model/pytorch_model.pt \
-CALVIN_DATASET_PATH=/path/to/calvin/task_D_D \
-CALVIN_CONFIG_PATH=/path/to/ckpt/calvin/calvin_models/conf \
-EVAL_SEQUENCES_PATH=/path/to/hippoVLA/examples/calvin/eval_files/eval_sequences.json \
-HOST=127.0.0.1 \
-PORT=5694 \
-NUM_SEQUENCES=1000 \
-bash examples/calvin/eval_files/eval_calvin.sh
+python examples/calvin/eval_files/eval_calvin.py \
+  --args.pretrained-path /path/to/ckpt/hippoVLA_rynnbrain_calvin_task_ABC_D_memory_dit_inter10_step5/final_model/pytorch_model.pt \
+  --args.unnorm-key franka \
+  --args.host 127.0.0.1 \
+  --args.port 5695 \
+  --args.dataset_path /path/to/calvin/task_D_D \
+  --args.calvin_config_path /path/to/ckpt/calvin/calvin_models/conf \
+  --args.eval_sequences_path /path/to/hippoVLA/examples/calvin/eval_files/eval_sequences.json \
+  --args.num_sequences 1000
 ```
