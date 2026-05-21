@@ -18,6 +18,8 @@ python -m pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 pip install ./transformer
 pip install flash-attn --no-build-isolation
+#if failed 
+# pip install --no-cache-dir flash-attn==2.7.4.post1 --no-build-isolation
 pip install -e .
 ```
 
@@ -28,6 +30,8 @@ check:
 nvcc -V
 python -m pip list | grep -E 'torch|flash-attn|transformers'
 ```
+### Then create calvin eval environment
+Look at https://github.com/mees/calvin
 
 ## 2. Prepare CALVIN Evaluation Paths
 
@@ -39,7 +43,7 @@ Evaluation uses two Python environments:
 Download the checkpoint package from Hugging Face:
 
 ```text
-https://huggingface.co/rorschachkelvin/RynnBrain_memory
+https://huggingface.co/rorschachkelvin/hippoVLA_weights/tree/main
 ```
 
 Place or keep the downloaded files under:
@@ -103,7 +107,7 @@ Terminal 2, inside the CALVIN environment:
 
 ```bash
 cd /path/to/hippoVLA
-conda activate calvin310
+conda activate calvin
 export PYTHONPATH=$(pwd):${PYTHONPATH}
 
 python examples/calvin/eval_files/eval_calvin.py \
